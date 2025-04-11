@@ -56,40 +56,59 @@ env/
 ehthumbs.db
 Thumbs.db
 
-# Ignore all files in data directories
-data/raw/*
-data/processed/*
-data/external/*
+# Ignore all files in data directories by default
+data/raw/**/*
+data/processed/**/*
+data/external/**/*
 
-# Keep directories and subdirectories (need to explicitly allow each level)
+# Keep all directory structures
 !data/raw/
-!data/raw/*/
-!data/raw/*/*/
-!data/raw/*/*/*/
+!data/raw/**/
 !data/processed/
-!data/processed/*/
-!data/processed/*/*/
-!data/processed/*/*/*/
+!data/processed/**/
 !data/external/
-!data/external/*/
-!data/external/*/*/
-!data/external/*/*/*/
+!data/external/**/
 
 # Keep documentation files
-!data/raw/README.md
 !data/raw/**/README.md
-!data/raw/download_instructions.md
+!data/raw/**/README
 !data/raw/**/download_instructions.md
-!data/processed/README.md
 !data/processed/**/README.md
-!data/external/README.md
+!data/processed/**/README
 !data/external/**/README.md
+!data/external/**/README
 !data/alternative_data_sources.md
 
 # Keep .gitkeep files
-!data/raw/**/.gitkeep
-!data/processed/**/.gitkeep
-!data/external/**/.gitkeep
+!data/**/.gitkeep
+
+# Keep Python scripts in the data directories
+!data/raw/**/*.py
+
+# Explicitly ignore data files by extension (regardless of location)
+data/**/*.tar
+data/**/*.tar.gz
+data/**/*.tar.bz2
+data/**/*.zip
+data/**/*.csv
+data/**/*.tsv
+data/**/*.jpg
+data/**/*.jpeg
+data/**/*.png
+data/**/*.gif
+data/**/*.txt
+data/**/*.json
+data/**/tweets
+data/**/retweets
+data/**/user_profiles
+data/**/user_timeline_tweets
+data/**/user_followers
+data/**/user_following
+
+# Keep specifically named files and metadata files we want to track
+!data/**/metadata/*.json
+
+
 
 # Model files (potentially large)
 *.h5
