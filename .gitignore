@@ -56,26 +56,40 @@ env/
 ehthumbs.db
 Thumbs.db
 
-# Project specific data directories - exclude everything by default
+# Ignore all files in data directories
 data/raw/*
 data/processed/*
 data/external/*
 
-# Keep empty directory markers
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/external/.gitkeep
+# Keep directories and subdirectories (need to explicitly allow each level)
+!data/raw/
+!data/raw/*/
+!data/raw/*/*/
+!data/raw/*/*/*/
+!data/processed/
+!data/processed/*/
+!data/processed/*/*/
+!data/processed/*/*/*/
+!data/external/
+!data/external/*/
+!data/external/*/*/
+!data/external/*/*/*/
 
-# Allow README files in data directories and all subdirectories
+# Keep documentation files
 !data/raw/README.md
-!data/processed/README.md
-!data/external/README.md
 !data/raw/**/README.md
-!data/raw/**/
+!data/raw/download_instructions.md
+!data/raw/**/download_instructions.md
+!data/processed/README.md
 !data/processed/**/README.md
-!data/processed/**/
+!data/external/README.md
 !data/external/**/README.md
-!data/external/**/
+!data/alternative_data_sources.md
+
+# Keep .gitkeep files
+!data/raw/**/.gitkeep
+!data/processed/**/.gitkeep
+!data/external/**/.gitkeep
 
 # Model files (potentially large)
 *.h5

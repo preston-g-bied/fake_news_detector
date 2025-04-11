@@ -168,7 +168,7 @@ def download_pheme_dataset(config):
 
         # create a README that explains how to download this dataset manually
         # (since it requires a registration on figshare)
-        readme_path = destination_dir / "README.md"
+        readme_path = destination_dir / "download_instructions.md"
         with open(readme_path, "w") as f:
             f.write(f"""# PHEME Dataset
 
@@ -199,7 +199,7 @@ def download_fakenewsnet_dataset(config):
 
         # create a README with instructions
         # (since this dataset requires specific tools to download)
-        readme_path = destination_dir / "README.md"
+        readme_path = destination_dir / "download_instructions.md"
         with open(readme_path, "w") as f:
             f.write(f"""# FakeNewsNet Dataset
 
@@ -233,7 +233,7 @@ def download_mediaeval_dataset(config):
         os.makedirs(destination_dir, exist_ok=True)
 
         # create a README with instructions
-        readme_path = destination_dir / "README.md"
+        readme_path = destination_dir / "download_instructions.md"
         with open(readme_path, "w") as f:
             f.write(f"""# MediaEval Verifying Multimedia Use Dataset
 
