@@ -1,0 +1,89 @@
+# model-specific configuration
+
+# text models
+text_models:
+  baseline:
+    type: "lstm"
+    embedding_dim: 300
+    hidden_dim: 128
+    num_layers: 2
+    dropout: 0.2
+    bidirectional: true
+    use_pretrained: true
+    pretrained_embeddings: "glove-wiki-gigaword-300"
+  
+  advanced:
+    type: "transformer"
+    model_name: "bert-base-uncased"
+    max_length: 512
+    hidden_dropout_prob: 0.1
+    attention_probs_dropout_prob: 0.1
+    num_labels: 2
+    output_hidden_states: true
+    fine_tuning:
+      freeze_base: false
+      freeze_layers: []
+
+# image models
+image_models:
+  baseline:
+    type: "cnn"
+    architecture: "resnet18"
+    pretrained: true
+    freeze_base: true
+    num_classes: 2
+    dropout: 0.5
+  
+  advanced:
+    type: "vision_transformer"
+    architecture: "vit_base_patch16_224"
+    pretrained: true
+    freeze_base: false
+    num_classes: 2
+    dropout: 0.5
+
+# metadata models
+metadata_models:
+  type: "random_forest"
+  n_estimators: 100
+  max_depth: 10
+  min_samples_split: 2
+  min_samples_leaf: 1
+  random_state: 42
+  alternative_models:
+    - "gradient_boosting"
+    - "xgboost"
+    - "lightgbm"
+
+# fusion models
+fusion_models:
+  early_fusion:
+    enabled: true
+    fusion_layer_sizes: [512, 256, 128]
+    dropout: 0.5
+    activation: "relu"
+  
+  late_fusion:
+    enabled: true
+    method: "weighted_average"
+    weights:
+      text: 0.5
+      image: 0.3
+      metadata: 0.2
+  
+  attention_fusion:
+    enabled: true
+    attention_heads: 8
+    attention_dropout: 0.1
+    hidden_dim: 256
+
+# ensemble settings
+ensemble:
+  enabled: true
+  method: "stacking"  # options: "voting", "averaging", "stacking"
+  meta_learner: "logistic_regression"
+  models_to_include:
+    - "text_advanced"
+    - "image_advanced"
+    - "metadata"
+    - "fusion"

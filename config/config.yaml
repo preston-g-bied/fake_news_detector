@@ -1,0 +1,110 @@
+# main configuration file for Fake News Detection project
+
+# paths
+paths:
+  data:
+    raw: data/raw
+    processed: data/processed
+    external: data/external
+  models:
+    saved_models: models/saved
+    output: models/output
+  logs: logs
+
+# data configuration
+data:
+  text_datasets:
+    - name: LIAR
+      url: https://www.cs.ucsb.edu/~william/data/liar_dataset.zip
+      description: 12.8K human-labeled short statements from PolitiFact
+      citation: "Wang, W. Y. (2017). 'Liar, Liar Pants on Fire': A New Benchmark Dataset for Fake News Detection."
+
+    - name: FakeNewsNet
+      url: https://github.com/KaiDMML/FakeNewsNet
+      description: News content from GossipCop and PolitiFact
+      citation: "Shu, K., Mahudeswaran, D., Wang, S., Lee, D., & Liu, H. (2018). FakeNewsNet: A Data Repository with News Content, Social Context and Dynamic Information for Studying Fake News on Social Media."
+    
+    - name: PHEME
+      url: https://figshare.com/articles/dataset/PHEME_dataset_for_Rumour_Detection_and_Veracity_Classification/6392078
+      description: Twitter rumors and non-rumors
+      citation: "Zubiaga, A., Liakata, M., Procter, R., Wong Sak Hoi, G., & Tolmie, P. (2016). Analysing how people orient to and spread rumours in social media by looking at conversational threads."
+
+  image_datasets:
+    - name: MediaEval
+      url: https://github.com/MKLab-ITI/image-verification-corpus
+      description: Images from tweets with verification labels
+      citation: "Boididou, C., Papadopoulos, S., Zampoglou, M., Apostolidis, L., Papadopoulou, O., & Kompatsiaris, Y. (2018). Detection and visualization of misleading content on Twitter."
+    
+    - name: FakeNewsNet-Images
+      url: https://github.com/KaiDMML/FakeNewsNet
+      description: Images associated with news articles
+      citation: "Shu, K., Mahudeswaran, D., Wang, S., Lee, D., & Liu, H. (2018). FakeNewsNet: A Data Repository with News Content, Social Context and Dynamic Information for Studying Fake News on Social Media."
+
+# pre-processing settings
+preprocessing:
+  text:
+    max_length: 512
+    language: "english"
+    remove_stopwords: true
+    stemming: false
+    lemmatization: true
+
+  image:
+    resize: [224, 224]
+    normalization:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.225, 0.225]
+    augmentation:
+      enabled: true
+      horizontal_flip: true
+      vertical_flip: false
+      random_crop: true
+      collor_jitter: true
+
+# training configuration (to be expanded in later phases)
+training:
+  batch_size: 32
+  learning_rate: 0.0001
+  num_epochs: 20
+  early_stopping:
+    enabled: true
+    patience: 5
+    min_delta: 0.001
+  optimizer: "adam"
+  scheduler:
+    enabled: true
+    type: "reduce_on_plateau"
+    patience: 2
+    factor: 0.5
+  device: "cpu"
+  seed: -7
+
+# evaluation settings
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - roc_auc
+  cross_validation:
+    enabled: true
+    n_splits: 5
+
+# logging configuration
+logging:
+  level: "INFO"
+  save_to_file: true
+  use_tensorboard: true
+
+# experiment tracking
+experiment_tracking:
+  enabled: false
+  platform: "wandb"
+  project_name: "fake-news-detection"
+
+# web application settings
+web_app:
+  host: "0.0.0.0"
+  port: 8080
+  debug: true

@@ -1,0 +1,60 @@
+# Core libraries
+numpy>=1.22.0
+pandas>=1.4.0
+scikit-learn>=1.0.2
+matplotlib>=3.5.1
+seaborn>=0.11.2
+tqdm>=4.62.3
+PyYAML>=6.0
+python-dotenv>=0.19.2
+pytest>=7.0.0
+jupyter>=1.0.0
+jupyterlab>=3.2.9
+notebook>=6.4.8
+
+# Data handling
+requests>=2.27.1
+beautifulsoup4>=4.10.0
+lxml>=4.7.1
+pillow>=9.0.1
+nltk>=3.7
+spacy>=3.2.1
+textstat>=0.7.3
+wordcloud>=1.8.1
+textblob>=0.17.1
+langdetect>=1.0.9
+pyexiv2>=2.8.1
+exifread>=3.0.0
+openpyxl>=3.0.9
+
+# Deep learning
+torch>=1.10.1
+torchvision>=0.11.2
+transformers>=4.16.0
+datasets>=1.18.0
+tensorboard>=2.8.0
+timm>=0.5.4  # PyTorch Image Models
+sentence-transformers>=2.1.0
+albumentations>=1.1.0  # Image augmentations
+huggingface-hub>=0.4.0
+
+# Visualization
+plotly>=5.6.0
+ipywidgets>=7.6.5
+wordcloud>=1.8.1
+eli5>=0.12.0  # For model explanations
+shap>=0.40.0  # For model explanations
+captum>=0.5.0  # For model interpretability
+gradio>=2.8.0  # For web demo
+
+# Web application
+flask>=2.0.3
+streamlit>=1.5.1
+gunicorn>=20.1.0
+
+# Development tools
+black>=22.1.0  # Code formatting
+flake8>=4.0.1  # Linting
+isort>=5.10.1  # Import sorting
+pre-commit>=2.17.0  # Git hooks
+mypy>=0.931  # Type checking
