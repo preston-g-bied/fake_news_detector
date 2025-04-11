@@ -63,6 +63,10 @@ data/external/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/external/.gitkeep
+!data/raw/text/liar/.gitkeep
+!data/raw/text/pheme/.gitkeep
+!data/raw/text/fakenewsnet/.gitkeep
+!data/raw/images/mediaeval/.gitkeep
 
 # Except metadata files that describe the datasets
 !data/raw/README.md
