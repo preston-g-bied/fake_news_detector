@@ -56,57 +56,27 @@ env/
 ehthumbs.db
 Thumbs.db
 
-# Ignore all files in data directories by default
-data/raw/**/*
-data/processed/**/*
-data/external/**/*
+# Ignore all data directories content
+/data/raw/
+/data/processed/
+/data/external/
 
-# Keep all directory structures
-!data/raw/
-!data/raw/**/
-!data/processed/
-!data/processed/**/
-!data/external/
-!data/external/**/
+# But keep these specific files
+!/data/raw/README.md
+!/data/raw/**/README.md
+!/data/raw/**/download_instructions.md
+!/data/raw/**/.gitkeep
+!/data/raw/**/*.py
 
-# Keep documentation files
-!data/raw/**/README.md
-!data/raw/**/README
-!data/raw/**/download_instructions.md
-!data/processed/**/README.md
-!data/processed/**/README
-!data/external/**/README.md
-!data/external/**/README
-!data/alternative_data_sources.md
+!/data/processed/README.md
+!/data/processed/**/README.md
+!/data/processed/**/.gitkeep
 
-# Keep .gitkeep files
-!data/**/.gitkeep
+!/data/external/README.md
+!/data/external/**/README.md
+!/data/external/**/.gitkeep
 
-# Keep Python scripts in the data directories
-!data/raw/**/*.py
-
-# Explicitly ignore data files by extension (regardless of location)
-data/**/*.tar
-data/**/*.tar.gz
-data/**/*.tar.bz2
-data/**/*.zip
-data/**/*.csv
-data/**/*.tsv
-data/**/*.jpg
-data/**/*.jpeg
-data/**/*.png
-data/**/*.gif
-data/**/*.txt
-data/**/*.json
-data/**/tweets
-data/**/retweets
-data/**/user_profiles
-data/**/user_timeline_tweets
-data/**/user_followers
-data/**/user_following
-
-# Keep specifically named files and metadata files we want to track
-!data/**/metadata/*.json
+!/data/alternative_data_sources.md
 
 
 
