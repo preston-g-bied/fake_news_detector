@@ -68,6 +68,10 @@ data/external/*
 !data/raw/README.md
 !data/processed/README.md
 !data/external/README.md
+!data/raw/text/liar/README.md
+!data/raw/text/pheme/README.md
+!data/raw/text/fakenewsnet/README.md
+!data/raw/images/mediaeval/README.md
 
 # Model files (potentially large)
 *.h5
