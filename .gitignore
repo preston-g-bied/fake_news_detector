@@ -56,26 +56,26 @@ env/
 ehthumbs.db
 Thumbs.db
 
-# Project specific
+# Project specific data directories - exclude everything by default
 data/raw/*
 data/processed/*
 data/external/*
+
+# Keep empty directory markers
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/external/.gitkeep
-!data/raw/text/liar/.gitkeep
-!data/raw/text/pheme/.gitkeep
-!data/raw/text/fakenewsnet/.gitkeep
-!data/raw/images/mediaeval/.gitkeep
 
-# Except metadata files that describe the datasets
+# Allow README files in data directories and all subdirectories
 !data/raw/README.md
 !data/processed/README.md
 !data/external/README.md
-!data/raw/text/liar/README.md
-!data/raw/text/pheme/README.md
-!data/raw/text/fakenewsnet/README.md
-!data/raw/images/mediaeval/README.md
+!data/raw/**/README.md
+!data/raw/**/
+!data/processed/**/README.md
+!data/processed/**/
+!data/external/**/README.md
+!data/external/**/
 
 # Model files (potentially large)
 *.h5
