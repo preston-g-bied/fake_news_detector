@@ -64,9 +64,6 @@ fakenewsnet/
 │       └── [article_ids]/
 └── user_data/
     ├── user_profiles/
-    ├── user_timeline_tweets/
-    ├── user_followers/
-    └── user_following/
 ```
 
 ## Note About Images

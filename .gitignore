@@ -56,29 +56,13 @@ env/
 ehthumbs.db
 Thumbs.db
 
-# Ignore all data directories content
-/data/raw/
-/data/processed/
-/data/external/
-
-# But keep these specific files
-!/data/raw/README.md
-!/data/raw/**/README.md
-!/data/raw/**/download_instructions.md
-!/data/raw/**/.gitkeep
-!/data/raw/**/*.py
-
-!/data/processed/README.md
-!/data/processed/**/README.md
-!/data/processed/**/.gitkeep
-
-!/data/external/README.md
-!/data/external/**/README.md
-!/data/external/**/.gitkeep
-
-!/data/alternative_data_sources.md
-
-
+# Ignore everything in these directories
+/data/raw/images/mediaeval/raw/*.txt
+/data/raw/images/mediaeval/images/
+/data/raw/text/liar/*.zip
+/data/raw/text/liar/*.tsv
+/data/raw/text/pheme/PHEME_veracity.tar.bz2
+/data/raw/text/pheme/all-rnr-annotated-threads/
 
 # Model files (potentially large)
 *.h5
