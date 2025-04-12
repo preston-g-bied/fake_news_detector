@@ -43,16 +43,27 @@ def load_image_urls(file_path):
         pd.DataFrame: DataFrame with image_id, image_url, annotation, and event
     """
     try:
-        # the file has a specific format: tabl-separated with 4 columns
-        df = pd.read_csv(file_path, sep='\t', header=None,
-                         names=['image_id', 'image_url', 'annotation', 'event'])
-        logger.info(f"Loaded {len(df)} image URLs from {file_path}")
+        # read file as text first to handle inconsistent lines
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
 
-        # verify the required columns exist
-        required_cols = ['image_id', 'image_url', 'annotation']
-        if not all(col in df.columns for col in required_cols):
-            logger.error(f"Missing required columns in {file_path}")
-            sys.exit(1)
+        # parse lines manually
+        data = []
+        for i, line in enumerate(lines, 1):
+            parts = line.strip().split('\t')
+            if len(parts) >= 4: # ensure we have at least 4 parts
+                # use the first 4 parts only
+                image_id = parts[0]
+                image_url = parts[1]
+                annotation = parts[2]
+                event = parts[3]
+                data.append([image_id, image_url, annotation, event])
+            else:
+                logger.warning(f"Line {i} has fewer than 4 fields: {line.strip()}")
+
+        # create DataFrame
+        df = pd.DataFrame(data, columns=['image_id', 'image_url', 'annotation', 'event'])
+        logger.info(f"Loaded {len(df)} image URLs from {file_path}")
 
         return df
     except Exception as e:
