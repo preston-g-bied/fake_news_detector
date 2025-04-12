@@ -63,7 +63,8 @@ fakenewsnet/
 │   └── real/
 │       └── [article_ids]/
 └── user_data/
-    ├── user_profiles/
+    └── user_profiles/
+      └── [user_ids].json
 ```
 
 ## Note About Images
