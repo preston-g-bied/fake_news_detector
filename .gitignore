@@ -63,6 +63,9 @@ Thumbs.db
 /data/raw/text/liar/*.tsv
 /data/raw/text/pheme/PHEME_veracity.tar.bz2
 /data/raw/text/pheme/all-rnr-annotated-threads/
+/data/raw/images/mediaeval/images/fake/*.jpg
+/data/raw/images/mediaeval/images/real/*.jpg
+/data/raw/images/mediaeval/images/unknown/*.jpg
 
 # Model files (potentially large)
 *.h5

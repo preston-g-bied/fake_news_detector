@@ -137,7 +137,7 @@ def download_images_parallel(df, output_dir, max_workers=10):
     Returns:
         dict: Summary statistics of download results
     """
-    results = {'success': 0, 'failed': 0, 'aready_exists': 0}
+    results = {'success': 0, 'failed': 0, 'already_exists': 0}
     failed_ids = []
 
     logger.info(f"Downloading {len(df)} images to {output_dir} using {max_workers} workers")
