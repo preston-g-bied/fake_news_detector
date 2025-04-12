@@ -1,10 +1,9 @@
-# Byte-compiled / optimized / DLL files
+# Python specific
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -20,6 +19,100 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.spyderproject
+.spyproject
+.ropeproject
+.project
+.pydevproject
+.settings/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# OS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific - Data Files
+# Keep READMEs and instruction files but ignore data
+data/raw/**
+data/processed/**
+data/external/**
+!data/raw/**/README.md
+!data/raw/**/README
+!data/raw/**/*.md
+!data/raw/**/.gitkeep
+!data/processed/**/README.md
+!data/processed/**/README
+!data/processed/**/*.md
+!data/processed/**/.gitkeep
+!data/external/**/README.md
+!data/external/**/README
+!data/external/**/*.md
+!data/external/**/.gitkeep
+!data/raw/**/download_instructions*
+!data/raw/**/convert_*.py
+!data/processed/**/download_instructions*
+!data/external/**/download_instructions*
+
+# Model files (potentially large)
+models/saved/**/*.h5
+models/saved/**/*.pth
+models/saved/**/*.pt
+models/saved/**/*.hdf5
+models/saved/**/*.pb
+models/saved/**/*.onnx
+models/saved/**/*.pkl
+models/saved/**/*.joblib
+models/saved/**/*.model
+models/saved/**/*.bin
+models/saved/**/*.weights
+models/output/**
+
+# Logs
+logs/*.log
+logs/*.txt
+*.log
+log/
+logs/
+pip-log.txt
+pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
@@ -33,66 +126,84 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Documentation
+docs/_build/
+docs/site/
 
-# Virtual Environment
-venv/
-ENV/
-env/
+# Generated reports 
+reports/*.html
+reports/*.pdf
+reports/*.txt
+# Keep markdown reports
+!reports/*.md
 
-# IDE specific files
-.idea/
-.vscode/
-*.swp
-*.swo
+# Translations
+*.mo
+*.pot
 
-# OS specific files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Generated data
+*.csv
+*.tsv
+*.json
+*.jsonl
+*.xlsx
+*.xls
+*.db
+*.sqlite
+*.sqlite3
 
-# Ignore everything in these directories
-/data/raw/images/mediaeval/raw/*.txt
-/data/raw/images/mediaeval/images/
-/data/raw/text/liar/*.zip
-/data/raw/text/liar/*.tsv
-/data/raw/text/pheme/PHEME_veracity.tar.bz2
-/data/raw/text/pheme/all-rnr-annotated-threads/
-/data/raw/images/mediaeval/images/fake/*.jpg
-/data/raw/images/mediaeval/images/real/*.jpg
-/data/raw/images/mediaeval/images/unknown/*.jpg
+# Images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.svg
+*.webp
+*.tiff
 
-# Model files (potentially large)
-*.h5
-*.pth
-*.pt
-*.pkl
-*.joblib
-*.onnx
-models/weights/
+# Image & text exceptions - keep examples if needed
+!examples/*.jpg
+!examples/*.jpeg
+!examples/*.png
+!examples/*.gif
+!examples/*.txt
+!examples/*.csv
 
-# Logs
-logs/
-*.log
-wandb/
+# Media
+*.mp4
+*.avi
+*.mov
+*.flv
+*.mkv
+*.wav
+*.mp3
 
-# Credentials and secrets
+# Archive files
+*.zip
+*.tar
+*.gz
+*.bz2
+*.xz
+*.7z
+*.rar
+
+# Environment variables and secrets
 .env
 .env.local
 .env.*.local
-credentials.json
-secrets.yaml
 config/secrets.yaml
+config/secrets.yml
+credentials.json
+client_secrets.json
+google_credentials.json
+token.json
+token.pickle
 
-# Large media files
-*.mp4
-*.tiff
-*.avi
-*.flv
-*.mov
-*.wmv
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/
+*.tmp
+*~
