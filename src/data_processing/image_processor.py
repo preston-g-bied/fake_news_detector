@@ -122,7 +122,7 @@ class ImageProcessor:
 
             # create metadata
             metadata = {
-                'otiginal_path': str(image_path),
+                'original_path': str(image_path),
                 'processed_path': str(output_path),
                 'original_size': (width, height),
                 'aspect_ratio': aspect_ratio,

@@ -906,7 +906,7 @@ class FakeNewsNetProcessor(TextProcessor):
         metadata['tweet_count'] = tweet_count
 
         # standardize the label
-        standardized_label = 'false' if label == 'fale' else 'true'
+        standardized_label = 'false' if label == 'fake' else 'true'
 
         # create processed article entry
         processed_article = {
