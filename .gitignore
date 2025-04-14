@@ -199,6 +199,7 @@ client_secrets.json
 google_credentials.json
 token.json
 token.pickle
+PENDING.md
 
 # Temporary files
 tmp/

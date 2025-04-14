@@ -358,7 +358,7 @@ def parse_args():
                         help='Path to FakeNewsNet dataset directory')
     parser.add_argument('--output', type=str,
                         help='Directoru to save extracted images')
-    parser.add_argument('--max_workers', type=int, default=0,
+    parser.add_argument('--max_workers', type=int, default=5,
                         help='Maximum number of parallel workers')
     parser.add_argument('--limit', type=int, default=0,
                         help='Limit number of articles to process (0 for all)')
