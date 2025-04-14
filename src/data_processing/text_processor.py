@@ -1,4 +1,4 @@
-# src/data/text_processor.py
+# src/data_processing/text_processor.py
 
 """
 Text data processing module for the Fake News Detection project.

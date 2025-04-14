@@ -1,4 +1,4 @@
-# src/data/image_processor.py
+# src/data_processing/image_processor.py
 
 """
 Image data processing module for the Fake News Detection project.
@@ -392,3 +392,149 @@ class MediaevalProcessor(ImageProcessor):
         logger.info(f"Saved summary to {summary_file}")
 
 
+class FakeNewsNetImageProcessor(ImageProcessor):
+    """Processor for the FakeNewsNet images dataset"""
+
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config, "FakeNewsNet-Images")
+
+    def load_image_metadata(self, metadata_file: Union[str, Path]) -> pd.DataFrame:
+        """
+        Load image metadata from the FakeNewsNet metadata file.
+        
+        Args:
+            metadata_file (Union[str, Path]): Path to metadata file
+            
+        Returns:
+            pd.DataFrame: DataFrame with image metadata
+        """
+        try:
+            with open(metadata_file, 'r', encoding='utf-8') as f:
+                metadata = json.load(f)
+
+            # convert to DataFrame for easier processing
+            df_data = []
+            for item in metadata:
+                source = item['source']
+                label = item['label']
+                article_id = item['article_id']
+                for image_file in item.get('images', []):
+                    df_data.append({
+                        'source': source,
+                        'label': label,
+                        'article_id': article_id,
+                        'image_file': image_file,
+                        'content_file': item.get('content_file', '')
+                    })
+
+            df = pd.DataFrame(df_data)
+            logger.info(f"Loaded {len(df)} image metadata entries from {metadata_file}")
+            return df
+        except Exception as e:
+            logger.error(f"Error loading image metadata from {metadata_file}: {e}")
+            return pd.DataFrame()
+
+    def process(self, input_dir: Union[str, Path], output_dir: Union[str, Path]) -> None:
+        """
+        Process the FakeNewsNet images dataset.
+        
+        Args:
+            input_dir (Union[str, Path]): Directory with FakeNewsNet images
+            output_dir (Union[str, Path]): Directory to save processed images
+        """
+        input_dir = Path(input_dir)
+        output_dir = Path(output_dir)
+
+        # create output directory if it doesn't exist
+        os.makedirs(output_dir, exist_ok=True)
+
+        # find images directory
+        images_dir = input_dir / "images"
+        if not images_dir.exists():
+            images_dir = input_dir  # try the input directory itself
+
+        # look for metadata file
+        metadata_dir = input_dir.parent / "metadata"
+        metadata_file = metadata_dir / "fakenewsnet_images.json"
+
+        if not metadata_file.exists():
+            logger.error(f"Could not find metadata file {metadata_file}")
+            return
+        
+        # load image metadata
+        image_metadata_df = self.load_image_metadata(metadata_file)
+        if image_metadata_df.empty:
+            return
+        
+        # create output directories for each source and label
+        for source in ['gossipcop', 'politifact']:
+            for label in ['fake', 'real']:
+                os.makedirs(output_dir / source / label, exist_ok=True)
+
+        # create a list to hold processed metadata
+        processed_metadata = []
+
+        # process each image
+        for idx, row in tqdm(image_metadata_df.iterrows(), total=len(image_metadata_df),
+                             desc="Processing FakeNewsNet images"):
+            source = row['source']
+            label = row['label']
+            article_id = row['article_id']
+            image_file = row['image_file']
+
+            # construct the full image path
+            image_path = images_dir / source / label / article_id / image_file
+
+            if not image_path.exists():
+                logger.warning(f"Image file not found: {image_path}")
+                continue
+
+            # determine output path
+            output_path = output_dir / source / label / f"{article_id}_{image_file}"
+
+            # process the image
+            image_metadata = self.process_image(image_path, output_path)
+
+            if image_metadata:
+                # add information from the DataFrame
+                image_metadata.update({
+                    'source': source,
+                    'label': label,
+                    'article_id': article_id,
+                    'original_filename': image_file,
+                    'content_file': row['content_file']
+                })
+
+                processed_metadata.append(image_metadata)
+
+        # save processed metadata
+        metadata_out_dir = output_dir.parent / "metadata"
+        os.makedirs(metadata_out_dir, exist_ok=True)
+
+        metadata_out_file = metadata_out_dir / "fakenewsnet_processed.json"
+        with open(metadata_out_file, 'w') as f:
+            json.dump(processed_metadata, f, indent=2)
+
+        logger.info(f"Processed {len(processed_metadata)} images and saved metadata to {metadata_out_file}")
+
+        # create a summary CSV file
+        summary_file = metadata_out_dir / "fakenewsnet_summary.csv"
+        with open(summary_file, 'w', newline='') as f:
+            fieldnames = ['source', 'label', 'article_id', 'image_file', 'processed_path',
+                          'original_size', 'aspect_ratio', 'has_exif']
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            
+            for item in processed_metadata:
+                writer.writerow({
+                    'source': item['source'],
+                    'label': item['label'],
+                    'article_id': item['article_id'],
+                    'image_file': item['original_filename'],
+                    'processed_path': item['processed_path'],
+                    'original_size': f"{item['original_size'][0]}x{item['original_size'][1]}",
+                    'aspect_ratio': f"{item['aspect_ratio']:.2f}",
+                    'has_exif': 'common' in item['exif'] and len(item['exif']['common']) > 0
+                })
+        
+        logger.info(f"Saved summary to {summary_file}")
