@@ -208,10 +208,28 @@ class MediaevalProcessor(ImageProcessor):
             pd.DataFrame: DataFrame with image metadata
         """
         try:
-            # the file has a specific format: tab-separated with 4 columns
-            df = pd.read_csv(metadata_file, sep='\t', header=None,
-                             names=['image_id', 'image_url', 'annotation', 'event'])
+            # read file as text first to handle inconsistent lines
+            with open(metadata_file, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+
+            # parse lines manually
+            data = []
+            for i, line in enumerate(lines, 1):
+                parts = line.strip().split('\t')
+                if len(parts) >= 4: # ensure we have at least 4 parts
+                    # use the first 4 parts only
+                    image_id = parts[0]
+                    image_url = parts[1]
+                    annotation = parts[2]
+                    event = parts[3]
+                    data.append([image_id, image_url, annotation, event])
+                else:
+                    logger.warning(f"Line {i} has fewer than 4 fields: {line.strip()}")
+
+            # create DataFrame
+            df = pd.DataFrame(data, columns=['image_id', 'image_url', 'annotation', 'event'])
             logger.info(f"Loaded {len(df)} image metadata entries from {metadata_file}")
+
             return df
         except Exception as e:
             logger.error(f"Error loading image metadata from {metadata_file}: {e}")
@@ -228,10 +246,28 @@ class MediaevalProcessor(ImageProcessor):
             pd.DataFrame: DataFrame with tweet-image mappings
         """
         try:
-            # the file has a specific format: tab-separated with 4 columns
-            df = pd.read_csv(mapping_file, sep='\t', header=None,
-                             names=['tweet_id', 'image_id', 'annotation', 'event'])
+            # read file as text first to handle inconsistent lines
+            with open(mapping_file, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+
+            # parse lines manually
+            data = []
+            for i, line in enumerate(lines, 1):
+                parts = line.strip().split('\t')
+                if len(parts) >= 4:  # ensure we have at least 4 parts
+                    # use the first 4 parts only
+                    tweet_id = parts[0]
+                    image_id = parts[1]
+                    annotation = parts[2]
+                    event = parts[3]
+                    data.append([tweet_id, image_id, annotation, event])
+                else:
+                    logger.warning(f"Line {i} in tweet mapping has fewer than 4 fields: {line.strip()}")
+
+            # create DataFrame
+            df = pd.DataFrame(data, columns=['tweet_id', 'image_id', 'annotation', 'event'])
             logger.info(f"Loaded {len(df)} tweet-image mappings from {mapping_file}")
+
             return df
         except Exception as e:
             logger.error(f"Error loading tweet-image mappings from {mapping_file}: {e}")
@@ -351,12 +387,17 @@ class MediaevalProcessor(ImageProcessor):
                     })
 
                     # add tweet information if available
-                    if tweet_image_df is not None:
-                        # find all tweets that use this image
-                        related_tweets = tweet_image_df[tweet_image_df['image_id'] == image_id]
-                        if not related_tweets.empty:
-                            image_metadata['tweet_ids'] = related_tweets['tweet_id'].tolist()
-                            image_metadata['tweet_count'] = len(related_tweets)
+                    if tweet_image_df is not None and not tweet_image_df.empty:
+                        # Check if the DataFrame has the expected columns
+                        if 'image_id' in tweet_image_df.columns and 'tweet_id' in tweet_image_df.columns:
+                            # find all tweets that use this image
+                            related_tweets = tweet_image_df[tweet_image_df['image_id'] == image_id]
+                            if not related_tweets.empty:
+                                image_metadata['tweet_ids'] = related_tweets['tweet_id'].tolist()
+                                image_metadata['tweet_count'] = len(related_tweets)
+                        else:
+                            # Log a warning if the columns don't match expectations
+                            logger.warning(f"Tweet mapping DataFrame is missing expected columns. Available columns: {tweet_image_df.columns.tolist()}")
 
                     processed_metadata.append(image_metadata)
         
@@ -454,7 +495,7 @@ class FakeNewsNetImageProcessor(ImageProcessor):
             images_dir = input_dir  # try the input directory itself
 
         # look for metadata file
-        metadata_dir = input_dir.parent / "metadata"
+        metadata_dir = input_dir / "metadata"
         metadata_file = metadata_dir / "fakenewsnet_images.json"
 
         if not metadata_file.exists():

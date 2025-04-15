@@ -267,6 +267,12 @@ class LiarProcessor(TextProcessor):
         Returns:
             Dict[str, Any]: Metadata dictionary
         """
+        # helper function to safely convert to int, handling NaN values
+        def safe_int(value, default=0):
+            if pd.isna(value):
+                return default
+            return int(value)
+
         metadata = {
             'id': row['id'],
             'subject': row['subject'],
@@ -276,18 +282,18 @@ class LiarProcessor(TextProcessor):
             'party': row['party'],
             'context': row['context'],
             'speaker_history': {
-                'barely_true': int(row['barely_true_counts']),
-                'false': int(row['false_counts']),
-                'half_true': int(row['half_true_counts']),
-                'mostly_true': int(row['mostly_true_counts']),
-                'pants_on_fire': int(row['pants_on_fire_counts'])
+                'barely_true': safe_int(row['barely_true_counts']),
+                'false': safe_int(row['false_counts']),
+                'half_true': safe_int(row['half_true_counts']),
+                'mostly_true': safe_int(row['mostly_true_counts']),
+                'pants_on_fire': safe_int(row['pants_on_fire_counts'])
             },
             'total_statements': sum([
-                int(row['barely_true_counts']),
-                int(row['false_counts']),
-                int(row['half_true_counts']),
-                int(row['mostly_true_counts']),
-                int(row['pants_on_fire_counts'])
+                safe_int(row['barely_true_counts']),
+                safe_int(row['false_counts']),
+                safe_int(row['half_true_counts']),
+                safe_int(row['mostly_true_counts']),
+                safe_int(row['pants_on_fire_counts'])
             ])
         }
 
@@ -300,11 +306,11 @@ class LiarProcessor(TextProcessor):
 
         if metadata['total_statements'] > 0:
             metadata['reliability_score'] = (
-                mostly_true_weight * int(row['mostly_true_counts']) +
-                half_true_weight * int(row['half_true_counts']) +
-                barely_true_weight * int(row['barely_true_counts']) +
-                false_weight * int(row['false_counts']) +
-                pants_fire_weight * int(row['pants_on_fire_counts'])
+                mostly_true_weight * safe_int(row['mostly_true_counts']) +
+                half_true_weight * safe_int(row['half_true_counts']) +
+                barely_true_weight * safe_int(row['barely_true_counts']) +
+                false_weight * safe_int(row['false_counts']) +
+                pants_fire_weight * safe_int(row['pants_on_fire_counts'])
             ) / metadata['total_statements']
         else:
             metadata['reliability_score'] = np.nan
@@ -728,7 +734,7 @@ class PhemeProcessor(TextProcessor):
             event_items = []
 
             # process rumors
-            rumors_dir = event_dir / "rumors"
+            rumors_dir = event_dir / "rumours"
             if rumors_dir.exists():
                 # find all rumor directories
                 rumor_dirs = [d for d in rumors_dir.iterdir() if d.is_dir()]
@@ -743,7 +749,7 @@ class PhemeProcessor(TextProcessor):
                 logger.info(f"Processed {len(rumor_dirs)} rumors from event {event_name}")
 
             # process non-rumors
-            non_rumors_dir = event_dir / "non-rumors"
+            non_rumors_dir = event_dir / "non-rumours"
             if non_rumors_dir.exists():
                 # find all non-rumor directories
                 non_rumor_dirs = [d for d in non_rumors_dir.iterdir() if d.is_dir()]

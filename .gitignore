@@ -60,6 +60,12 @@ ENV/
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 
+# jupyter PDFs and HTMLs
+notebooks/exploratory/*.pdf
+notebooks/exploratory/*.html
+notebooks/experiments/*.pdf
+notebooks/experiments/*.html
+
 # OS specific files
 .DS_Store
 .DS_Store?
